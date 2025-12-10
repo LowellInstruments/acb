@@ -12,14 +12,9 @@ r = redis.Redis('localhost')
 ak = os.getenv('AWS_ACCESS_KEY_ID')
 sk = os.getenv('AWS_SECRET_ACCESS_KEY')
 fol_upload = '/home/acbotics/Downloads/acbotics'
+# fol_upload = '/home/kaz/Downloads/acbotics'
 bucket_name = 'bkt-acbotics'
 
-
-# for debug, user acbotics
-# $ sudo apt install awscli
-ak = ""
-sk = ""
-fol_upload = '/home/kaz/Downloads/acbotics'
 
 
 # -------------------------------------------------

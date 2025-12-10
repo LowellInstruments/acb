@@ -10,6 +10,10 @@ clear
 echo
 
 
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+
+
 
 echo "activating python venv for ACB"
 cd "$FOL" || (echo "ACB error, cannot switch folder to activate venv"; exit 1)
