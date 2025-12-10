@@ -10,6 +10,7 @@ clear
 echo
 
 
+# grab this from our secure repository
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
 
