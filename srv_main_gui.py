@@ -1,3 +1,4 @@
+import datetime
 import sys
 import redis
 import subprocess as sp
@@ -87,6 +88,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     # -------------------------------------------------------------------
 
     def cb_timer(self):
+
+        # update time
+        now = datetime.datetime.now().strftime("%H:%M:%S")
+        self.lbl_time.setText(now)
+
 
         # GUI show API state
         color = 'green' if self.state_api == 'Yes' else 'red'
