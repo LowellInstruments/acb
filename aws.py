@@ -79,7 +79,6 @@ def _aws_loop():
         c_prod = (
             f'AWS_ACCESS_KEY_ID={ak} AWS_SECRET_ACCESS_KEY={sk} '
             f'aws s3 sync {fol_upload} s3://{bucket_name} '
-            f'--dryrun'
         )
         c = c_prod
         rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
