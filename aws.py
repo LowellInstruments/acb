@@ -7,9 +7,6 @@ import os
 import redis
 
 
-# $ sudo apt install awscli
-
-
 
 r = redis.Redis('localhost')
 ak = os.getenv('AWS_ACCESS_KEY_ID')
@@ -19,11 +16,13 @@ bucket_name = 'bkt-acbotics'
 
 
 # for debug, user acbotics
+# $ sudo apt install awscli
 ak = ""
 sk = ""
 fol_upload = '/home/kaz/Downloads/acbotics'
 
 
+# -------------------------------------------------
 # fish_data_archive
 #     FB00001_10_20251118_122122
 #         images
@@ -56,6 +55,7 @@ fol_upload = '/home/kaz/Downloads/acbotics'
 #             CC_2_1.cfg
 #             CC_2_1.txt
 #             SENS_2_1.dat
+# -------------------------------------------------
 
 
 
@@ -96,7 +96,6 @@ def _aws_loop():
 
 
 def aws_loop(just_once=False):
-
     while 1:
         s = _aws_loop()
         print(f'AWS loop sleeping for 1 hour, last operation = {s}')

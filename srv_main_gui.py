@@ -27,13 +27,25 @@ def _is_rpi():
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
+    def slot_btn_close(self):
+        # user press 'X' button inside the window to close the program
+        self.close()
+
+
+    def slot_btn_minimize(self):
+        # makes press '_' button to minimize and see desktop / terminal
+        self.showMinimized()
+
+
     def _cb_api_err(self):
         b = self.proc_api.readAllStandardError()
         print(bytes(b).decode())
 
+
     def _cb_api_out(self):
         b = self.proc_api.readAllStandardError()
         print(bytes(b).decode())
+
 
     def _cb_api_state(self, state):
         ls_states = {
@@ -45,13 +57,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # this is examined by the GUI timer
         self.state_api = ls_states[state]
 
+
     def _cb_aws_err(self):
         b = self.proc_aws.readAllStandardError()
         print(bytes(b).decode())
 
+
     def _cb_aws_out(self):
         b = self.proc_aws.readAllStandardError()
         print(bytes(b).decode())
+
 
     def _cb_aws_state(self, state):
         ls_states = {
@@ -62,16 +77,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # this is examined by the GUI timer
         self.state_aws = ls_states[state]
-
-
-
-    def slot_btn_close(self):
-        # user press 'X' button inside the window to close the program
-        self.close()
-
-    def slot_btn_minimize(self):
-        # makes press '_' button to minimize and see desktop / terminal
-        self.showMinimized()
 
 
 
