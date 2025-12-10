@@ -145,7 +145,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # prevent the label from growing much
         wg = self.geometry()
         _w = int(wg.width() / 2)
-        print(type(_w))
         self.lbl_main.setMaximumWidth(_w)
         self.lbl_main.setMinimumWidth(_w)
 
