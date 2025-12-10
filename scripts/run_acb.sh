@@ -17,8 +17,8 @@ source .venv/bin/activate
 
 
 
-echo 'getting last ACB code'
-git pull
+# echo 'getting last ACB code'
+# git pull
 
 
 
