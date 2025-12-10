@@ -69,13 +69,19 @@ def _aws_loop():
     if ak == '' or sk == '':
         print('error, AWS credentials invalid')
     else:
-        c = (
+        c_debug = (
             f'AWS_ACCESS_KEY_ID={ak} AWS_SECRET_ACCESS_KEY={sk} '
             f'aws s3 sync {fol_upload} s3://{bucket_name} '
             f'--exclude \'*\' '
             f'--include \'*.txt\' '
             f'--dryrun'
         )
+        c_prod = (
+            f'AWS_ACCESS_KEY_ID={ak} AWS_SECRET_ACCESS_KEY={sk} '
+            f'aws s3 sync {fol_upload} s3://{bucket_name} '
+            f'--dryrun'
+        )
+        c = c_prod
         rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
         if rv.returncode == 0:
             s = 'OK'
