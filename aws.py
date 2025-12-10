@@ -76,7 +76,6 @@ def _aws_loop():
             f'--include \'*.txt\' '
             f'--dryrun'
         )
-        print(c)
         rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
         if rv.returncode == 0:
             s = 'OK'
