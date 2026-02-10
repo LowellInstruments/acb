@@ -33,44 +33,49 @@ def _check_destination_is_reachable(ip):
         if not RSYNC_PASSWORD:
             raise Exception('RSYNC_PASSWORD not set')
     except (Exception, ) as ex:
-        print(f'error, no env var -> {ex}')
+        print(f'CLI: error, no env var -> {ex}')
         return 1
 
 
     # can we detect destination's remote network host
     rv = _icmp_ping(ip)
     if rv:
-        print(f'error, no ICMP answer to ping')
+        print(f'CLI: error, no ICMP answer to ping')
         return 2
-    print('received ICMP pong from target')
+    print('CLI: received ICMP pong from target')
 
 
     # can we detect destination's remote API
     rv = _send_ping_to_api(ip)
     if rv:
-        print(f'error, no API answer to ping')
+        print(f'CLI: error, no API answer to ping')
         return 3
-    print('received API pong from target')
+    print('CLI: received API pong from target')
 
 
     # basic RSYNC reachability test
     c_ls = f'rsync --list-only acb@{ip}::'
     rv = sp.run(c_ls, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
     if rv.returncode:
-        print(f'error, could not rsync-list target ip {ip}')
+        print(f'CLI: error, could not rsync-list target ip {ip}')
         return 4
 
     return 0
 
 
 
-def _th_fxn_rsync_send_data_file(ip, f_src):
+def _th_fxn_rsync_send_data_file(ip, fol_src):
 
     # ---------------------------------------------------
     # RSYNC-send thread writes its progress to file <ppf>
     # ---------------------------------------------------
 
-    c = f'rsync -azvP {f_src} acb@{ip}::{RSYNC_DST_ENTRY} > {PATH_FILE_PROGRESS_RSYNC}'
+    username = 'acbotics'
+    if not _is_rpi():
+        username = 'acbotics'
+        print(f"CLI: development, changing user name from acb -> {username}")
+    c = f'rsync -azvP {fol_src} {username}@{ip}::{RSYNC_MODULE} > {PATH_FILE_PROGRESS_RSYNC}'
+    print(f"CLI: {c}")
     rv = sp.run(c, shell=True, stdout=sp.PIPE)
     if rv.returncode == 0:
         return
@@ -87,7 +92,7 @@ def _send_cmd_to_api(ip, s):
         rsp.raise_for_status()
         return rsp.text
     except (Exception, ) as ex:
-        print(f'error, _send_to_api -> {ex}')
+        print(f'CLI: error, _send_to_api -> {ex}')
 
 
 
@@ -119,15 +124,23 @@ def rsync_send(ip):
     if os.path.exists(PATH_FILE_PROGRESS_RSYNC):
         os.unlink(PATH_FILE_PROGRESS_RSYNC)
 
+    # check the things to send really exist
+    if not os.path.isdir(FOLDER_TO_SEND):
+        print(f"CLI: error, folder to send not found {FOLDER_TO_SEND}")
+        return 1
+
     # ----------------------------------------------------
     # start thread to RSYNC-send the file, do not join it
     # ----------------------------------------------------
 
-    th = threading.Thread(target=_th_fxn_rsync_send_data_file, args=(ip, FOLDER_TO_SEND))
+    th = threading.Thread(
+        target=_th_fxn_rsync_send_data_file,
+        args=(ip, FOLDER_TO_SEND)
+    )
     th.start()
 
     # mark start of transfer
-    _send_text_to_api(ip, 'ACB box detected')
+    _send_text_to_api(ip, 'CLI: Acbotics box detected')
 
 
     # --------------------------------------
@@ -140,7 +153,7 @@ def rsync_send(ip):
 
         # happens always, either good or bad
         if not th.is_alive():
-            _send_text_to_api(ip, 'all sent')
+            _send_text_to_api(ip, 'CLI: all sent')
             break
 
         with open(PATH_FILE_PROGRESS_RSYNC, 'r') as f:
@@ -189,7 +202,7 @@ def rsync_send(ip):
                     last_stats = list(d.values())[-1]
                     _send_text_to_api(ip, f'receiving {last_name}, {last_stats}')
 
-    print('rv RSYNC-send = ', rv)
+    print('CLI: rv RSYNC-send = ', rv)
     return rv
 
 

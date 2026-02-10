@@ -61,8 +61,8 @@ def _aws_loop():
     r.set('acb:aws', s)
     s = 'error'
 
-    if ak == '' or sk == '':
-        print('error, AWS credentials invalid')
+    if not ak or not sk:
+        print('AWS: error, credentials invalid')
     else:
         c_debug = (
             f'AWS_ACCESS_KEY_ID={ak} AWS_SECRET_ACCESS_KEY={sk} '
@@ -93,7 +93,7 @@ def _aws_loop():
 def aws_loop(just_once=False):
     while 1:
         s = _aws_loop()
-        print(f'AWS loop sleeping for 1 hour, last operation = {s}')
+        print(f'AWS: sleep 1 hour, last operation = {s}')
         time.sleep(3600)
         if just_once:
             break
@@ -101,5 +101,4 @@ def aws_loop(just_once=False):
 
 
 if __name__ == '__main__':
-    print('starting AWS loop')
     aws_loop(just_once=True)

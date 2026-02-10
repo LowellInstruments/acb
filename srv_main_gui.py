@@ -1,4 +1,5 @@
 import datetime
+import os
 import sys
 import redis
 import subprocess as sp
@@ -57,6 +58,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # this is examined by the GUI timer
         self.state_api = ls_states[state]
+        if state == QProcess.ProcessState.Starting:
+            print("API: running")
+
 
 
     def _cb_aws_err(self):
@@ -64,9 +68,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         print(bytes(b).decode())
 
 
+
     def _cb_aws_out(self):
-        b = self.proc_aws.readAllStandardError()
+        b = self.proc_aws.readAllStandardOutput()
         print(bytes(b).decode())
+
 
 
     def _cb_aws_state(self, state):
@@ -169,7 +175,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # ------------------------------------
         # start API thread from this GUI
         # ------------------------------------
-        print('running API')
         self.proc_api = QProcess()
         self.proc_api.readyReadStandardOutput.connect(self._cb_api_out)
         self.proc_api.readyReadStandardError.connect(self._cb_api_err)
@@ -179,13 +184,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.proc_aws.readyReadStandardOutput.connect(self._cb_aws_out)
         self.proc_aws.readyReadStandardError.connect(self._cb_aws_err)
         self.proc_aws.stateChanged.connect(self._cb_aws_state)
-        self.proc_aws.start("python", ['aws.py'])
+        self.proc_aws.start(".venv/bin/python", ["aws.py"])
 
 
 
 
 
 if __name__ == '__main__':
+    print('os_wd', os.getcwd())
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
     window.show()
