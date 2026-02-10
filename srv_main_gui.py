@@ -59,7 +59,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # this is examined by the GUI timer
         self.state_api = ls_states[state]
         if state == QProcess.ProcessState.Starting:
-            print("API: running")
+            print("API: starting")
 
 
 
@@ -85,6 +85,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # this is examined by the GUI timer
         self.state_aws = ls_states[state]
 
+        if state == QProcess.ProcessState.Starting:
+            print("AWS: starting")
 
 
 
