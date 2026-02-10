@@ -64,6 +64,7 @@ def _aws_loop():
     if not ak or not sk:
         print('AWS: error, credentials invalid')
     else:
+        print(f"AWS: trying upload to bucket {bucket_name}")
         c_debug = (
             f'AWS_ACCESS_KEY_ID={ak} AWS_SECRET_ACCESS_KEY={sk} '
             f'aws s3 sync {fol_upload} s3://{bucket_name} '
@@ -80,6 +81,7 @@ def _aws_loop():
         if rv.returncode == 0:
             s = 'OK'
             print(f'{rv.stdout.decode()}')
+            print(f"AWS: OK to bucket {bucket_name}")
         else:
             print(f'error: AWS -> {rv.stderr.decode()}')
 
@@ -91,6 +93,7 @@ def _aws_loop():
 
 
 def aws_loop(just_once=False):
+    print(f'AWS: starting loop')
     while 1:
         s = _aws_loop()
         print(f'AWS: sleep 1 hour, last operation = {s}')

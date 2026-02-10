@@ -184,7 +184,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.proc_aws.readyReadStandardOutput.connect(self._cb_aws_out)
         self.proc_aws.readyReadStandardError.connect(self._cb_aws_err)
         self.proc_aws.stateChanged.connect(self._cb_aws_state)
-        self.proc_aws.start(".venv/bin/python", ["aws.py"])
+        self.proc_aws.start("python3", ["aws.py"])
 
 
 
