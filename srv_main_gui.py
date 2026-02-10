@@ -151,7 +151,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.setGeometry(_wx, _wy, _ww, _wh)
         self.timer = QTimer()
         self.timer.timeout.connect(self.cb_timer)
-        self.timer.start(1000)
+        self.timer.start(100)
         self.lbl_version.setText('v. 0.5')
         ip_wlan0 = _get_ip_address('wlan0')
         ip_wlan1 = _get_ip_address('wlan1')

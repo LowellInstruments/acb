@@ -139,8 +139,9 @@ def rsync_send(ip):
     )
     th.start()
 
+
     # mark start of transfer
-    _send_text_to_api(ip, 'CLI: Acbotics box detected')
+    _send_text_to_api(ip, 'Acbotics peer detected')
 
 
     # --------------------------------------
@@ -153,7 +154,7 @@ def rsync_send(ip):
 
         # happens always, either good or bad
         if not th.is_alive():
-            _send_text_to_api(ip, 'CLI: all sent')
+            _send_text_to_api(ip, 'all sent, leaving')
             break
 
         with open(PATH_FILE_PROGRESS_RSYNC, 'r') as f:
@@ -168,6 +169,13 @@ def rsync_send(ip):
         last_bn = ''
         d = {}
 
+        # ll: example
+        # ['sending incremental file list',
+        #  'Sonde081425_142800/',
+        #  'Sonde081425_142800/code_1.109.0-1770171879_amd64.deb',
+        #  '            776   0%    0.00kB/s    0:00:00  ',
+        #  '     15,023,976  12%   13.96MB/s    0:00:07  ',
+        #  '     26,951,528  23%   12.69MB/s    0:00:06  ',
 
         for i, line in enumerate(ll):
 
@@ -181,9 +189,10 @@ def rsync_send(ip):
                 break
 
             elif line[-4] == '.':
+                # last basename
                 last_bn = os.path.basename(line)
 
-            elif 'kB/s' in line:
+            elif 'kB/s' in line or 'MB/s' in line:
                 ls = line.split()
                 if 'xfr#' in line:
                     # indicates file complete
@@ -195,6 +204,16 @@ def rsync_send(ip):
                     # show not remaining but done ones
                     to_chk_inv = f'({n_max - n_i} / {n_max})'
                     d[last_bn] = to_chk_inv
+                # just progress
+                else:
+                    n = len(ls)
+                    if n == 4:
+                        # line: 94,131,168  80%   36.50MB/s    0:00:00
+                        dl_xcent = ls[1]
+                        dl_speed = ls[2]
+                        s_progress = f'{last_bn}\n{dl_xcent}\n{dl_speed}'
+                        _send_cmd_to_api(ip, s_progress)
+
 
             elif i == len(ll) - 1:
                 if d:

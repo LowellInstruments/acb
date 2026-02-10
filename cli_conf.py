@@ -11,7 +11,7 @@ try:
         RSYNC_PASSWORD = os.environ['RSYNC_PASSWORD']
 except (Exception, ):
     print('error, cannot find environment variable RSYNC_PASSWORD')
-IP_DST = '192.168.0.169'
+IP_DST = '192.168.0.223'
 SENDER_ID = 'ACB #3'
 
 
