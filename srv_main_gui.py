@@ -185,7 +185,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.proc_aws = QProcess()
         # self.proc_aws.readyReadStandardOutput.connect(self._cb_aws_out)
         # self.proc_aws.readyReadStandardError.connect(self._cb_aws_err)
-        self.proc_aws.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
+        self.proc_aws.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
         self.proc_aws.stateChanged.connect(self._cb_aws_state)
         self.proc_aws.start("python3", ["aws.py"])
 
