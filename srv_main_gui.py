@@ -153,14 +153,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer.timeout.connect(self.cb_timer)
         self.timer.start(1000)
         self.lbl_version.setText('v. 0.5')
-        ip_wlo0 = _get_ip_address('wlan0')
-        ip_wlo1 = _get_ip_address('wlan1')
+        ip_wlan0 = _get_ip_address('wlan0')
+        ip_wlan1 = _get_ip_address('wlan1')
         s_ip = ''
-        if ip_wlo0 != 'N/A':
-            s_ip += f'wlo0 {ip_wlo0} '
-        if ip_wlo1 != 'N/A':
-            s_ip += f'wlo1 {ip_wlo1}'
+        if ip_wlan0 != 'N/A':
+            s_ip += f'wlo0 {ip_wlan0} '
+        if ip_wlan1 != 'N/A':
+            s_ip += f'wlo1 {ip_wlan1}'
         self.lbl_ip.setText(s_ip)
+        print(s_ip)
 
 
         # prevent the label from growing much
