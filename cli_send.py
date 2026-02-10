@@ -212,7 +212,8 @@ def rsync_send(ip):
                         dl_xcent = ls[1]
                         dl_speed = ls[2]
                         s_progress = f'{last_bn}\n{dl_xcent}\n{dl_speed}'
-                        _send_cmd_to_api(ip, s_progress)
+                        if dl_xcent != '0%':
+                            _send_cmd_to_api(ip, s_progress)
 
 
             elif i == len(ll) - 1:
