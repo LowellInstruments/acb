@@ -148,13 +148,15 @@ def rsync_send(ip):
     # wait for thread RSYNC-send to finish
     # --------------------------------------
     rv = 0
+    d_done_lines = {}
+    last_bn = ''
     while 1:
 
         time.sleep(1)
 
         # happens always, either good or bad
         if not th.is_alive():
-            _send_text_to_api(ip, 'all sent, leaving')
+            _send_text_to_api(ip, 'all done, leaving')
             break
 
         with open(PATH_FILE_PROGRESS_RSYNC, 'r') as f:
@@ -166,7 +168,6 @@ def rsync_send(ip):
 
         # format list
         ll = [i.replace('\n', '') for i in ll if i != '\n']
-        last_bn = ''
         d = {}
 
         # ll: example
@@ -177,10 +178,18 @@ def rsync_send(ip):
         #  '     15,023,976  12%   13.96MB/s    0:00:07  ',
         #  '     26,951,528  23%   12.69MB/s    0:00:06  ',
 
+        # filter a bit
+        ll = [i for i in ll if i not in d_done_lines.keys()]
+
         for i, line in enumerate(ll):
 
+            # better rsync flow
+            d_done_lines[line] = i
+            # print(line)
+
+
             if 'error' in line:
-                _send_text_to_api(ip, 'error in thread')
+                _send_text_to_api(ip, 'error in sending thread')
                 rv = 1
                 break
 
@@ -191,6 +200,7 @@ def rsync_send(ip):
             elif line[-4] == '.':
                 # last basename
                 last_bn = os.path.basename(line)
+                print('CLI: captured basename', last_bn)
 
             elif 'kB/s' in line or 'MB/s' in line:
                 ls = line.split()
