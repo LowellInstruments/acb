@@ -39,16 +39,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.showMinimized()
 
 
-    def _cb_api_err(self):
-        b = self.proc_api.readAllStandardError()
-        print(bytes(b).decode())
-
-
-    def _cb_api_out(self):
-        b = self.proc_api.readAllStandardError()
-        print(bytes(b).decode())
-
-
     def _cb_api_state(self, state):
         ls_states = {
             QProcess.ProcessState.NotRunning: 'No',
@@ -60,18 +50,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.state_api = ls_states[state]
         if state == QProcess.ProcessState.Starting:
             print("API: starting")
-
-
-
-    def _cb_aws_err(self):
-        b = self.proc_aws.readAllStandardError()
-        print(bytes(b).decode())
-
-
-
-    def _cb_aws_out(self):
-        b = self.proc_aws.readAllStandardOutput()
-        print(bytes(b).decode())
 
 
 
@@ -178,13 +156,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # start API thread from this GUI
         # ------------------------------------
         self.proc_api = QProcess()
-        self.proc_api.readyReadStandardOutput.connect(self._cb_api_out)
-        self.proc_api.readyReadStandardError.connect(self._cb_api_err)
+        self.proc_api.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
         self.proc_api.stateChanged.connect(self._cb_api_state)
         self.proc_api.start("uvicorn", ['srv_main_api:app', '--host', '0.0.0.0'])
         self.proc_aws = QProcess()
-        # self.proc_aws.readyReadStandardOutput.connect(self._cb_aws_out)
-        # self.proc_aws.readyReadStandardError.connect(self._cb_aws_err)
         self.proc_aws.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
         self.proc_aws.stateChanged.connect(self._cb_aws_state)
         self.proc_aws.start("python3", ["aws.py"])
