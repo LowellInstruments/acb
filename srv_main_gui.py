@@ -1,5 +1,8 @@
 import datetime
+import fcntl
 import os
+import socket
+import struct
 import sys
 import redis
 import subprocess as sp
@@ -8,7 +11,7 @@ from PyQt6 import QtWidgets, QtCore
 from PyQt6.QtCore import QTimer, QProcess
 from PyQt6.QtGui import QIcon
 
-from acb.gui import Ui_MainWindow
+from acb.gui_acb import Ui_MainWindow
 import setproctitle
 
 
@@ -22,6 +25,19 @@ def _is_rpi():
     c = 'cat /proc/cpuinfo | grep aspberry'
     rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
     return rv.returncode == 0
+
+
+
+def _get_ip_address(if_name):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        return socket.inet_ntoa(fcntl.ioctl(
+            s.fileno(),
+            0x8915,  # SIOCGIFADDR
+            struct.pack('256s', if_name[:15])
+        )[20:24])
+    except (Exception, ):
+        return 'N/A'
 
 
 
@@ -137,6 +153,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer.timeout.connect(self.cb_timer)
         self.timer.start(1000)
         self.lbl_version.setText('v. 0.5')
+        ip_wlo0 = _get_ip_address('wlo0')
+        ip_wlo1 = _get_ip_address('wlo1')
+        s_ip = ''
+        if ip_wlo0 != 'N/A':
+            s_ip += f'wlo0 {ip_wlo0} '
+        if ip_wlo1 != 'N/A':
+            s_ip += f'wlo1 {ip_wlo1}'
+        self.lbl_ip.setText(s_ip)
 
 
         # prevent the label from growing much

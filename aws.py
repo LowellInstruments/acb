@@ -93,7 +93,6 @@ def _aws_loop():
 
 
 def aws_loop(just_once=False):
-    print(f'AWS: starting loop')
     while 1:
         s = _aws_loop()
         print(f'AWS: sleep 1 hour, last operation = {s}')

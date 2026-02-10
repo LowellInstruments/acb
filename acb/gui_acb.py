@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'gui.ui'
+# Form implementation generated from reading ui file 'gui_acb.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #
@@ -66,6 +66,10 @@ class Ui_MainWindow(object):
         self.btn_close.setObjectName("btn_close")
         self.horizontalLayout_3.addWidget(self.btn_close)
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
+        self.lbl_ip = QtWidgets.QLabel(parent=self.centralwidget)
+        self.lbl_ip.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTrailing|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.lbl_ip.setObjectName("lbl_ip")
+        self.verticalLayout_4.addWidget(self.lbl_ip)
         self.lbl_version = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_version.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTrailing|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.lbl_version.setObjectName("lbl_version")
@@ -97,4 +101,5 @@ class Ui_MainWindow(object):
         self.lbl_aws.setText(_translate("MainWindow", "AWS"))
         self.btn_minimize.setText(_translate("MainWindow", "_"))
         self.btn_close.setText(_translate("MainWindow", "X"))
+        self.lbl_ip.setText(_translate("MainWindow", "v."))
         self.lbl_version.setText(_translate("MainWindow", "v."))

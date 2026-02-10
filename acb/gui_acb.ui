@@ -127,6 +127,16 @@
              </layout>
             </item>
             <item>
+             <widget class="QLabel" name="lbl_ip">
+              <property name="text">
+               <string>v.</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="lbl_version">
               <property name="text">
                <string>v.</string>
