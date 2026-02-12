@@ -2,6 +2,10 @@
 .idea/
 
 
+# my project ignored stuff
+logs/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 apps/__pycache__/
