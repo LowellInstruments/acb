@@ -10,14 +10,20 @@ import subprocess as sp
 from PyQt6 import QtWidgets, QtCore
 from PyQt6.QtCore import QTimer, QProcess
 from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QListWidgetItem
 
 from acb.gui_acb import Ui_MainWindow
 import setproctitle
 
-
+from acb.utils import utils_get_today_log_path
+from srv_main_api import RD_ACB_RSYNC_FLAG_LOG
 
 r = redis.Redis('localhost', port=6379)
 setproctitle.setproctitle('srv_main_gui')
+if not os.path.isdir('logs'):
+    os.mkdir('logs')
+filename_log = utils_get_today_log_path()
+
 
 
 
@@ -25,6 +31,7 @@ def _is_rpi():
     c = 'cat /proc/cpuinfo | grep aspberry'
     rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
     return rv.returncode == 0
+
 
 
 
@@ -44,6 +51,23 @@ def _get_ip_address(if_name):
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+
+    def load_log_to_listview(self, p):
+        self.lv_log.clear()
+        if os.path.exists(p):
+            bn = os.path.basename(p)
+            print(f'GUI: loading log file {bn}')
+            with open(p, 'r') as f:
+                ll = f.readlines()
+                if ll:
+                    s = f'load log {bn}'
+                    self.lv_log.addItem(s)
+                for i in ll:
+                    self.lv_log.addItem(i.strip())
+        else:
+            print(f'GUI: NOT detected log file {p}')
+
+
 
     def slot_btn_close(self):
         # user press 'X' button inside the window to close the program
@@ -89,7 +113,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     # shows incoming rsync-progress, local API state, local rsync state
     # -------------------------------------------------------------------
 
-    def cb_timer(self):
+    def cb_timer_gui_100_ms(self):
 
         # update time
         now = datetime.datetime.now().strftime("%H:%M:%S")
@@ -127,6 +151,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.lbl_aws.setStyleSheet(f"background-color: red;")
 
 
+        # GUI shows logs status written in redis by process
+        if r.exists(RD_ACB_RSYNC_FLAG_LOG):
+            print('GUI: refreshing log list view')
+            r.delete(RD_ACB_RSYNC_FLAG_LOG)
+            p = utils_get_today_log_path()
+            self.load_log_to_listview(p)
+
+
 
     # -------------
     # GUI layout
@@ -149,10 +181,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             _ww = 500
             _wh = 400
             self.setGeometry(_wx, _wy, _ww, _wh)
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.cb_timer)
-        self.timer.start(100)
-        self.lbl_version.setText('v. 0.5')
+        self.timer_gui = QTimer()
+        self.timer_gui.timeout.connect(self.cb_timer_gui_100_ms)
+        self.timer_gui.start(100)
+        self.lbl_version.setText('v. 0.7')
         ip_wlan0 = _get_ip_address('wlan0')
         ip_wlan1 = _get_ip_address('wlan1')
         s_ip = ''
@@ -188,6 +220,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.proc_aws.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
         self.proc_aws.stateChanged.connect(self._cb_aws_state)
         self.proc_aws.start("python3", ["aws.py"])
+
+
+        # loading the log file to GUI upon boot
+        self.load_log_to_listview(filename_log)
+
 
 
 

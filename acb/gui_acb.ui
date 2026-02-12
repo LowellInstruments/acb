@@ -21,6 +21,11 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QLabel" name="lbl_main">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>TextLabel</string>
           </property>
@@ -42,6 +47,11 @@
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QLabel" name="lbl_rsyncd_color">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>RSYNC</string>
               </property>
@@ -52,6 +62,11 @@
             </item>
             <item>
              <widget class="QLabel" name="lbl_api_color">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string> API </string>
               </property>
@@ -62,6 +77,11 @@
             </item>
             <item>
              <widget class="QLabel" name="lbl_aws">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>AWS</string>
               </property>
@@ -72,6 +92,11 @@
             </item>
             <item>
              <widget class="QLabel" name="lbl_time">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -128,6 +153,11 @@
             </item>
             <item>
              <widget class="QLabel" name="lbl_ip">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>v.</string>
               </property>
@@ -138,6 +168,11 @@
             </item>
             <item>
              <widget class="QLabel" name="lbl_version">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>v.</string>
               </property>
@@ -151,7 +186,13 @@
          </layout>
         </item>
         <item>
-         <widget class="QListView" name="listView"/>
+         <widget class="QListWidget" name="lv_log">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
