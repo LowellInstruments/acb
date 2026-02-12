@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 
 
-import datetime
 import time
-import subprocess as sp
 import os
-from acb.redis import *
-from acb.utils import utils_write_to_log
+from acb.utils import *
 
 
 
 access_key = os.getenv('AWS_ACCESS_KEY_ID')
 secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-fol_upload = '/home/acbotics/Downloads/acbotics'
 # fol_upload = '/home/kaz/Downloads/acbotics'
+if utils_is_rpi():
+    fol_upload = '/home/acbotics/Downloads/acbotics'
 bucket_name = 'bkt-acbotics'
 
 

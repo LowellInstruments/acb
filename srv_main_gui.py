@@ -1,51 +1,18 @@
-import datetime
-import fcntl
 import os
-import socket
-import struct
 import sys
-import redis
-import subprocess as sp
-
-from PyQt6 import QtWidgets, QtCore
+from PyQt6 import QtWidgets
 from PyQt6.QtCore import QTimer, QProcess
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QListWidgetItem
-
 from acb.gui_acb import Ui_MainWindow
 import setproctitle
+from acb.utils import *
 
-from acb.utils import utils_get_today_log_path
-from srv_main_api import RD_ACB_RSYNC_FLAG_LOG
 
-r = redis.Redis('localhost', port=6379)
+
 setproctitle.setproctitle('srv_main_gui')
 if not os.path.isdir('logs'):
     os.mkdir('logs')
 filename_log = utils_get_today_log_path()
-
-
-
-
-def _is_rpi():
-    c = 'cat /proc/cpuinfo | grep aspberry'
-    rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-    return rv.returncode == 0
-
-
-
-
-def _get_ip_address(if_name):
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        return socket.inet_ntoa(fcntl.ioctl(
-            s.fileno(),
-            0x8915,  # SIOCGIFADDR
-            struct.pack('256s', if_name[:15])
-        )[20:24])
-    except (Exception, ):
-        return 'N/A'
-
 
 
 
@@ -133,14 +100,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
         # GUI shows rsync status written in redis by local API
-        s = r.get('acb:rsync_state_text')
+        s = red.get('acb:rsync_state_text')
         if s:
             s = s.decode()
         self.lbl_main.setText(s)
 
 
         # GUI shows AWS status written in redis by process
-        s = r.get('acb:aws')
+        s = red.get('acb:aws')
         if s:
             s = s.decode()
         if s == 'OK':
@@ -152,9 +119,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
         # GUI shows logs status written in redis by process
-        if r.exists(RD_ACB_RSYNC_FLAG_LOG):
+        if red.exists(RD_ACB_RSYNC_FLAG_LOG):
             print('GUI: refreshing log list view')
-            r.delete(RD_ACB_RSYNC_FLAG_LOG)
+            red.delete(RD_ACB_RSYNC_FLAG_LOG)
             p = utils_get_today_log_path()
             self.load_log_to_listview(p)
 
@@ -173,7 +140,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_minimize.clicked.connect(self.slot_btn_minimize)
         self.setWindowTitle('⬆️ Rsync Transfer ACB')
         self.setWindowIcon(QIcon('./acb/icon_lobster.png'))
-        if _is_rpi():
+        if utils_is_rpi():
             self.showFullScreen()
         else:
             _wx = 100
@@ -185,8 +152,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer_gui.timeout.connect(self.cb_timer_gui_100_ms)
         self.timer_gui.start(100)
         self.lbl_version.setText('v. 0.7')
-        ip_wlan0 = _get_ip_address('wlan0')
-        ip_wlan1 = _get_ip_address('wlan1')
+        ip_wlan0 = utils_get_ip_address('wlan0')
+        ip_wlan1 = utils_get_ip_address('wlan1')
         s_ip = ''
         if ip_wlan0 != 'N/A':
             s_ip += f'wlo0 {ip_wlan0} '
