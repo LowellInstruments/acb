@@ -1,27 +1,19 @@
 import uvicorn
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI
 from pydantic import BaseModel
 import setproctitle
-import redis
+from acb.utils import utils_write_to_log
+from acb.redis import *
 
-from acb.utils import utils_get_today_log_path
 
 
 setproctitle.setproctitle('srv_main_api')
 app = FastAPI()
-r = redis.Redis('localhost', port=6379)
-RD_ACB_RSYNC_STATE_TEXT = 'acb:rsync_state_text'
-RD_ACB_RSYNC_FLAG_LOG = 'acb:rsync_flag_log'
 
 
 
 def _api_write_to_log(s):
-
-    # choose things we log
-    filename_log = utils_get_today_log_path()
-    with open(filename_log, 'a') as f:
-        f.write(f'{s}\n')
-    r.set(RD_ACB_RSYNC_FLAG_LOG, s)
+    return utils_write_to_log(s)
 
 
 
@@ -37,7 +29,7 @@ def rsync_state(state: RsyncState):
 
     # curl -X PUT -H "Content-Type: application/json" -d '{"text": "nyu"}' http://localhost:8000/rsync_state/
 
-    r.setex(
+    red.setex(
         RD_ACB_RSYNC_STATE_TEXT,
         10,
         state.text
@@ -47,12 +39,11 @@ def rsync_state(state: RsyncState):
     else:
         d_ans = {'answer': state.text}
 
-
     # add to today's_log and flag it
     _api_write_to_log(state.text)
 
-
     return d_ans
+
 
 
 

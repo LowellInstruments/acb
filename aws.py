@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
 
 
+import datetime
 import time
 import subprocess as sp
 import os
-import redis
+from acb.redis import *
+from acb.utils import utils_write_to_log
 
 
 
-r = redis.Redis('localhost')
-ak = os.getenv('AWS_ACCESS_KEY_ID')
-sk = os.getenv('AWS_SECRET_ACCESS_KEY')
+access_key = os.getenv('AWS_ACCESS_KEY_ID')
+secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
 fol_upload = '/home/acbotics/Downloads/acbotics'
 # fol_upload = '/home/kaz/Downloads/acbotics'
 bucket_name = 'bkt-acbotics'
+
+
+
+def _aws_write_to_log(s):
+    return utils_write_to_log(s)
 
 
 
@@ -57,45 +63,52 @@ bucket_name = 'bkt-acbotics'
 def _aws_loop():
 
     # AWS progress indicator
-    s = 'working'
-    r.set('acb:aws', s)
-    s = 'error'
+    s_aws = 'working'
+    red.set('acb:aws', s_aws)
+    s_aws = 'error'
 
-    if not ak or not sk:
+
+    if not access_key or not secret_key:
         print('AWS: error, credentials invalid')
+        _aws_write_to_log('error AWS credentials')
     else:
         print(f"AWS: trying upload folder {fol_upload} to bucket {bucket_name}")
         c_debug = (
-            f'AWS_ACCESS_KEY_ID={ak} AWS_SECRET_ACCESS_KEY={sk} '
+            f'AWS_ACCESS_KEY_ID={access_key} AWS_SECRET_ACCESS_KEY={secret_key} '
             f'aws s3 sync {fol_upload} s3://{bucket_name} '
             f'--exclude \'*\' '
             f'--include \'*.txt\' '
             f'--dryrun'
         )
         c_prod = (
-            f'AWS_ACCESS_KEY_ID={ak} AWS_SECRET_ACCESS_KEY={sk} '
+            f'AWS_ACCESS_KEY_ID={access_key} AWS_SECRET_ACCESS_KEY={secret_key} '
             f'aws s3 sync {fol_upload} s3://{bucket_name} '
         )
         c = c_prod
         rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        ts = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
         if rv.returncode == 0:
-            s = 'OK'
+            s_aws = 'OK'
             print(f'{rv.stdout.decode()}')
             print(f"AWS: OK to bucket {bucket_name}")
+            utils_write_to_log('AWS sync OK')
         else:
             print(f'error: AWS -> {rv.stderr.decode()}')
+            utils_write_to_log('AWS sync error')
+
 
 
     # AWS state will be read by the timer in GUI
-    r.set('acb:aws', s)
-    return s
+    red.set('acb:aws', s_aws)
+    return s_aws
 
 
 
 def aws_loop(just_once=False):
+    utils_write_to_log(f'AWS bucket {bucket_name}')
     while 1:
-        s = _aws_loop()
-        print(f'AWS: sleep 1 hour, last operation = {s}')
+        s_rv = _aws_loop()
+        print(f'AWS: sleep 1 hour, last operation = {s_rv}')
         time.sleep(3600)
         if just_once:
             break
