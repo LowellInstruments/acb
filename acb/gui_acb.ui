@@ -91,7 +91,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="lbl_interface">
+             <widget class="QLabel" name="lbl_time">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
