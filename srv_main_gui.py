@@ -247,7 +247,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.proc_aws.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
         self.proc_aws.stateChanged.connect(self._cb_aws_state)
         self.proc_aws.start("python3", ["aws.py"])
-        self.lbl_aws.setStyleSheet(f"background-color: red;")
+        # self.lbl_aws.setStyleSheet(f"background-color: red;")
 
 
         # loading the log file to GUI upon boot
