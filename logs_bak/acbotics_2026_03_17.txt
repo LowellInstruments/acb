@@ -1,0 +1,160 @@
+10:09:24
+AWS bucket bkt-acbotics
+10:09:50
+AWS sync OK
+10:16:29
+ping by ACB #3
+10:16:29
+ACB box detected
+10:16:30
+all sent
+10:17:38
+ping by ACB #3
+10:17:38
+ACB box detected
+10:17:39
+all sent
+10:20:33
+ping by ACB #3
+10:20:33
+ACB box detected
+10:20:34
+all sent
+10:31:30
+ping by ACB #3
+10:31:30
+ACB box detected
+10:31:31
+all sent
+10:40:33
+ping by ACB #3
+10:40:33
+ACB box detected
+10:40:34
+all sent
+10:46:14
+AWS bucket bkt-acbotics
+10:46:40
+AWS bucket bkt-acbotics
+10:52:33
+AWS bucket bkt-acbotics
+10:52:51
+AWS sync OK
+10:53:06
+AWS bucket bkt-acbotics
+10:53:22
+AWS sync OK
+10:54:05
+AWS bucket bkt-acbotics
+10:54:21
+AWS sync OK
+10:57:41
+AWS bucket bkt-acbotics
+10:58:00
+AWS sync OK
+10:58:18
+AWS bucket bkt-acbotics
+11:00:24
+AWS bucket bkt-acbotics
+11:00:33
+ping by ACB #3
+11:00:33
+ACB box detected
+11:00:34
+all sent
+11:00:43
+AWS sync OK
+11:01:23
+AWS bucket bkt-acbotics
+11:01:40
+AWS sync OK
+11:05:04
+AWS bucket bkt-acbotics
+11:05:24
+AWS bucket bkt-acbotics
+11:05:42
+AWS sync OK
+11:05:50
+ping by ACB #3
+11:05:50
+ACB box detected
+11:05:51
+all sent
+11:10:33
+ping by ACB #3
+11:10:33
+ACB box detected
+11:10:34
+all sent
+11:20:33
+ping by ACB #3
+11:20:33
+ACB box detected
+11:20:34
+all sent
+11:30:33
+ping by ACB #3
+11:30:33
+ACB box detected
+11:30:34
+all sent
+11:40:33
+ping by ACB #3
+11:40:33
+ACB box detected
+11:40:34
+all sent
+11:50:33
+ping by ACB #3
+11:50:33
+ACB box detected
+11:50:34
+all sent
+12:00:33
+ping by ACB #3
+12:00:33
+ACB box detected
+12:00:34
+all sent
+12:10:33
+ping by ACB #3
+12:10:33
+ACB box detected
+12:10:34
+all sent
+12:20:33
+ping by ACB #3
+12:20:33
+ACB box detected
+12:20:34
+all sent
+12:30:34
+ping by ACB #3
+12:30:34
+ACB box detected
+12:30:35
+all sent
+12:40:33
+ping by ACB #3
+12:40:33
+ACB box detected
+12:40:34
+all sent
+12:50:33
+ping by ACB #3
+12:50:34
+ACB box detected
+12:50:35
+all sent
+13:00:33
+ping by ACB #3
+13:00:34
+ACB box detected
+13:00:35
+all sent
+14:43:41
+ping by ACB #3
+14:43:42
+ACB box detected
+14:43:44
+all sent
