@@ -169,21 +169,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # ------------
         # version 2
         # -------------
-        print('stopping service systemctl NetworkManager')
-        c = 'sudo systemctl stop NetworkManager'
-        rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        if rv.returncode:
-            print('error: cannot STOP service NetworkManager')
-            sys.exit(1)
-        print('running our ad-hoc script')
-        c = 'sudo scripts/adhoc_server.sh'
-        rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        if rv.returncode:
-            print('error: cannot run adhoc_server script')
-            sys.exit(1)
-        # need time to do this
-        print('waiting 3 seconds for all to happen')
-        time.sleep(3)
+        # print('stopping service systemctl NetworkManager')
+        # c = 'sudo systemctl stop NetworkManager'
+        # rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        # if rv.returncode:
+        #     print('error: cannot STOP service NetworkManager')
+        #     sys.exit(1)
+        # print('running our ad-hoc script')
+        # c = 'sudo scripts/adhoc_server.sh'
+        # rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        # if rv.returncode:
+        #     print('error: cannot run adhoc_server script')
+        #     sys.exit(1)
+        # # need time to do this
+        # print('waiting 3 seconds for all to happen')
+        # time.sleep(3)
 
 
 

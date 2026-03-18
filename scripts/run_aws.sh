@@ -26,6 +26,10 @@ source .venv/bin/activate
 # git pull
 
 
+echo 'switching to infrastructure'
+sudo systemctl restart NetworkManager
+sleep 5
+
 
 echo "running AWS"
 cd $FOL || (echo "ACB error, cannot switch folder to run ACB"; exit 1)

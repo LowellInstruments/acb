@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 # to be run in adhoc server
 
+sudo systemctl stop NetworkManager
+
+
 sudo ifconfig wlan0 down
 sudo iwconfig wlan0 channel 1
 sudo iwconfig wlan0 mode ad-hoc
