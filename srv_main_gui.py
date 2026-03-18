@@ -135,35 +135,35 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self):
 
-        # # ensure interfaces in proper mode
-        # print('detecting wlan0 wi-fi mode as ad-hoc')
-        # c = "iwconfig wlan0 | grep 'Mode:Ad-Hoc'"
-        # rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        # if rv.returncode:
-        #     print('copying scripts/interfaces to /etc/network/ folder')
-        #     c = 'sudo cp scripts/interfaces /etc/network/interfaces'
-        #     rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        #     if rv.returncode:
-        #         print('error: cannot copy interfaces file')
-        #         sys.exit(1)
-        #     print('restarting service systemctl NetworkManager')
-        #     # this should set one interface to ad-hoc, one to infrastructure
-        #     c = 'sudo systemctl restart NetworkManager'
-        #     rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        #     if rv.returncode:
-        #         print('error: cannot restart service NetworkManager')
-        #         sys.exit(1)
-        #     print('running our ad-hoc script')
-        #     c = 'sudo scripts/adhoc_server.sh'
-        #     rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        #     if rv.returncode:
-        #         print('error: cannot run adhoc_server script')
-        #         sys.exit(1)
-        #     # need time to do this
-        #     print('waiting 3 seconds for all to happen')
-        #     time.sleep(3)
-        # else:
-        #     print('adhoc configuration already seems OK')
+        # ensure interfaces in proper mode
+        print('detecting wi-fi mode as ad-hoc')
+        c = "iwconfig wlan0 | grep 'Mode:Ad-Hoc'"
+        rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        if rv.returncode:
+            print('copying scripts/interfaces to /etc/network/ folder')
+            c = 'sudo cp scripts/interfaces /etc/network/interfaces'
+            rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+            if rv.returncode:
+                print('error: cannot copy interfaces file')
+                sys.exit(1)
+            print('restarting service systemctl NetworkManager')
+            # this should set one interface to ad-hoc, one to infrastructure
+            c = 'sudo systemctl restart NetworkManager'
+            rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+            if rv.returncode:
+                print('error: cannot restart service NetworkManager')
+                sys.exit(1)
+            print('running our ad-hoc script')
+            c = 'sudo scripts/adhoc_server.sh'
+            rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+            if rv.returncode:
+                print('error: cannot run adhoc_server script')
+                sys.exit(1)
+            # need time to do this
+            print('waiting 3 seconds for all to happen')
+            time.sleep(3)
+        else:
+            print('adhoc configuration already seems OK')
 
 
 
@@ -227,10 +227,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.proc_api.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
         self.proc_api.stateChanged.connect(self._cb_api_state)
         self.proc_api.start("uvicorn", ['srv_main_api:app', '--host', '0.0.0.0'])
-        self.proc_aws = QProcess()
-        self.proc_aws.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
-        self.proc_aws.stateChanged.connect(self._cb_aws_state)
-        self.proc_aws.start("python3", ["aws.py"])
+
+
+        # ------------------------------------
+        # start AWS thread from this GUI
+        # ------------------------------------
+        #self.proc_aws = QProcess()
+        #self.proc_aws.setProcessChannelMode(QProcess.ProcessChannelMode.ForwardedChannels)
+        #self.proc_aws.stateChanged.connect(self._cb_aws_state)
+        #self.proc_aws.start("python3", ["aws.py"])
+        self.lbl_aws.setStyleSheet(f"background-color: red;")
 
 
         # loading the log file to GUI upon boot
