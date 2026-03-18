@@ -44,7 +44,7 @@
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,1,1,1">
             <item>
              <widget class="QLabel" name="lbl_rsyncd_color">
               <property name="font">
@@ -99,21 +99,6 @@
               </property>
               <property name="text">
                <string>-</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="lbl_time">
-              <property name="font">
-               <font>
-                <pointsize>16</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string/>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>

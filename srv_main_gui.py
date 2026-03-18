@@ -218,23 +218,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # print(s_ip)
 
 
-        # show the mode of the wi-fi
-        c = 'iwconfig wlan0 | grep "Mode:Ad-Hoc"'
-        rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        s = rv.stdout.decode()
-        s = s.split()
-        print('showing info wlan0')
-        print(s)
-        self.lbl_interface.setText(s[0])
-
-
 
         # prevent the label from growing much
-        wg = self.geometry()
-        _w = int(wg.width() / 2)
-        self.lbl_main.setMaximumWidth(_w)
-        self.lbl_main.setMinimumWidth(_w)
-        self.showFullScreen()
+        self.lbl_main.setMaximumWidth(320)
+        self.lbl_main.setMinimumWidth(320)
 
 
 
