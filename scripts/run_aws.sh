@@ -27,6 +27,6 @@ source .venv/bin/activate
 
 
 
-echo "running ACB"
-cd $FOL || (echo "ACB error, cannot switch folder to run LIL"; exit 1)
-python3 srv_main_gui.py
+echo "running AWS"
+cd $FOL || (echo "ACB error, cannot switch folder to run ACB"; exit 1)
+python3 aws.py
