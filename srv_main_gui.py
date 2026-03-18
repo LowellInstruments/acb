@@ -202,8 +202,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         rv = sp.run(c, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
         s = rv.stdout.decode()
         s = s.split()
+        print('showing info wlan0')
         print(s)
-        self.lbl_interface.setText(s)
+        self.lbl_interface.setText(s[0])
 
 
 
