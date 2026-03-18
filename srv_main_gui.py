@@ -234,6 +234,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         _w = int(wg.width() / 2)
         self.lbl_main.setMaximumWidth(_w)
         self.lbl_main.setMinimumWidth(_w)
+        self.showFullScreen()
+
 
 
 
