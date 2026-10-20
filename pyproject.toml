@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "acb_ss_gui"
+version = "0.0.0"
+description = "GUI for Acbotics SuperSodne"
+dependencies = [
+    "PyQt6",
+    "setproctitle",
+    "redis"
+]
+
+
+

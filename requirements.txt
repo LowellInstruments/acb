@@ -1,11 +1,4 @@
-fastapi
-uvicorn
-requests
-
-# use system-site-packages for PyQt6
+# on Rpi, use system-site-packages for PyQt6
 # PyQt6
-
 setproctitle
 redis
-pathvalidate
-pydantic

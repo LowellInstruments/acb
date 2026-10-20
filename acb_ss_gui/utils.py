@@ -3,8 +3,6 @@ import socket
 import struct
 import subprocess as sp
 import fcntl
-from acb.redis import *
-
 
 
 
@@ -22,7 +20,6 @@ def utils_write_to_log(s):
     with open(filename_log, 'a') as f:
         f.write(now + '\n')
         f.write(f'{s}\n')
-    red.set(RD_ACB_RSYNC_FLAG_LOG, s)
 
 
 
@@ -35,13 +32,18 @@ def utils_is_rpi():
 
 
 
-def utils_get_ip_address(if_name):
+def utils_get_my_interface_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         return socket.inet_ntoa(fcntl.ioctl(
             s.fileno(),
             0x8915,  # SIOCGIFADDR
-            struct.pack('256s', if_name[:15])
+            struct.pack('256s', 'wlan0'[:15])
         )[20:24])
     except (Exception, ):
         return 'N/A'
+
+
+
+def utils_get_my_interface_starlink_ip_address():
+    return '1.2.3.4'

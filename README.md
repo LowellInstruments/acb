@@ -1,10 +1,5 @@
-Needs rsync daemon running for the server part.
+GUI showing what is going on in the supersonde.
 
-We have handwritten notes at Lowell Instruments.
+It reads from its own redis server, which is written by remote DDH.
 
-rsync daemon needs 2 files:
-- /etc/rsyncd.conf
-- /etc/rsyncd.secrets
-
-
-![Description](acb/description.jpg "Description")
+# ![Description](acb/description.jpg "Description")
