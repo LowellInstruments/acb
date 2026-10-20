@@ -72,7 +72,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             f = r.get(RD_ACB_SS_GUI_UPLOAD_FILENAME) or 'unknown'
             bn_f = os.path.basename(str(f))
             d = r.get(RD_ACB_SS_GUI_UPLOAD_DDH) or 'ddh_x'
-            s = f'upload\n{bn_f}\n{p} %\n{d}'
+            s = f'upload\n{bn_f}\n{p} %\nto {d}'
         self.lbl_main.setText(s)
 
 
